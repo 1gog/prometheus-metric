@@ -1,0 +1,18 @@
+[Unit]
+Description=Zookeeper
+Documentation=http://zookeeper.apache.org
+Requires=network.target
+After=network.target
+
+[Service]
+User=root
+Type=simple
+ExecStart=/opt/kafka/bin/zookeeper-server-start.sh /opt/kafka/config/zookeeper.properties
+ExecStop=/opt/kafka/bin/zookeeper-server-stop.sh
+PIDFile=/var/run/zookeeper/zoo.pid
+WorkingDirectory=/opt/kafka/bin/
+Environment=EXTRA_ARGS=-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.remi.server.hostname=127.0.0.1 -Djava.net.preferIPv4Stack=true
+Environment=JMX_PORT=9992
+#Environment=EXTRA_ARGS=-javaagent:/opt/prometheus/lib/jmx_prometheus_javaagent-0.12.1.jar=9902:/etc/jmx_exporter/zookeeper.yml
+[Install]
+WantedBy=default.target
